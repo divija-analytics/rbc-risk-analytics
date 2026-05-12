@@ -1,5 +1,9 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import os
+
+# Create charts folder
+os.makedirs('charts', exist_ok=True)
 
 # Load the CSV files
 clients = pd.read_csv("clients.csv")
@@ -34,22 +38,28 @@ print(merged.head())
 
 # Aggregate risk by client
 risk_by_client = merged.groupby("client_id")["risk_score"].sum().reset_index()
-
-# Sort from highest to lowest risk
 risk_by_client = risk_by_client.sort_values(by="risk_score", ascending=False)
 
 print("\nTotal risk score by client:")
 print(risk_by_client.head(10))
 
 # Risk by country
-risk_by_country = merged.groupby("country")["risk_score"].sum().reset_index().sort_values(by="risk_score", ascending=False)
+risk_by_country = merged.groupby("country")["risk_score"].sum().reset_index()
+risk_by_country = risk_by_country.sort_values(by="risk_score", ascending=False)
+
 print("\nRisk by country:")
 print(risk_by_country)
 
 # Risk by transaction type
-risk_by_type = merged.groupby("type")["risk_score"].sum().reset_index().sort_values(by="risk_score", ascending=False)
+risk_by_type = merged.groupby("type")["risk_score"].sum().reset_index()
+risk_by_type = risk_by_type.sort_values(by="risk_score", ascending=False)
+
 print("\nRisk by transaction type:")
 print(risk_by_type)
+
+# Summary statistics
+print(f"\nTop risky country: {risk_by_country.iloc[0]['country']} with {risk_by_country.iloc[0]['risk_score']:.0f} risk points")
+print(f"Total high-risk clients (score > 5): {(risk_by_client['risk_score'] > 5).sum()}")
 
 # --- Chart 1: Risk by Country ---
 plt.figure(figsize=(8, 5))
@@ -58,7 +68,8 @@ plt.title('Risk Score by Country')
 plt.xlabel('Country')
 plt.ylabel('Total Risk Score')
 plt.tight_layout()
-plt.show()
+plt.savefig('charts/risk_by_country.png', dpi=300, bbox_inches='tight')
+plt.close()
 
 # --- Chart 2: Risk by Transaction Type ---
 plt.figure(figsize=(8, 5))
@@ -67,8 +78,8 @@ plt.title('Risk Score by Transaction Type')
 plt.xlabel('Transaction Type')
 plt.ylabel('Total Risk Score')
 plt.tight_layout()
-plt.show()
-
+plt.savefig('charts/risk_by_transaction.png', dpi=300, bbox_inches='tight')
+plt.close()
 
 # --- Chart 3: Top 10 High-Risk Clients ---
 top_clients = risk_by_client.head(10)
@@ -79,9 +90,8 @@ plt.title('Top 10 High-Risk Clients')
 plt.xlabel('Client ID')
 plt.ylabel('Risk Score')
 plt.tight_layout()
-plt.show()
+plt.savefig('charts/top_10_clients.png', dpi=300, bbox_inches='tight')
+plt.close()
 
-
-
-
-
+print("\n✅ Charts saved to 'charts/' folder")
+print("📊 Project complete - ready for RBC applications!")
