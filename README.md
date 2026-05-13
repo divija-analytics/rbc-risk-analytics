@@ -1,5 +1,8 @@
 # **RBC Risk Analytics Project**
 
+This project simulates how a bank’s Risk or AML team reviews client and transaction behaviour to flag unusual or higher‑risk activity. Using simple rule‑based logic, each transaction is checked against conditions such as large transfer amounts, ATM withdrawals, and international activity. These rules add to a client’s total risk score, helping prioritize which clients, countries, or transaction types may need further review.
+
+
 A Python-based risk scoring model analyzing client demographics and transaction behaviour to identify high‑risk clients, countries, and transaction types.  
 Built for data analyst and risk/AML internship applications (RBC, GRM, Fraud, Compliance).
 
@@ -18,6 +21,22 @@ Using two datasets — **Clients** and **Transactions** — the analysis:
 
 ---
 
+## How the Logic Works
+
+At a high level, the model:
+- Loads client and transaction data from CSV files
+- Merges them into a single dataset
+- Applies simple rule‑based conditions to assign a risk score to each transaction
+- Aggregates risk by client, country, and transaction type
+- Generates charts to visualize where risk is concentrated
+
+The rules are implemented in Python using:
+- `if` conditions to check things like large transfers, withdrawals, and international activity
+- Pandas operations (similar to a `for` loop) to apply these rules across all rows
+- `print()` statements to inspect intermediate outputs and verify that the scoring logic is working as expected
+
+---
+
 ## **📂 Files in This Repository**
 | File | Description |
 |------|-------------|
@@ -28,7 +47,7 @@ Using two datasets — **Clients** and **Transactions** — the analysis:
 
 ---
 
-## **🛠 Tools & Libraries**
+## **💻 Tools & Libraries**
 - Python  
 - Pandas  
 - Matplotlib  
